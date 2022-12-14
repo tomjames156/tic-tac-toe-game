@@ -56,13 +56,17 @@ def find_winner():
 
             if(not(values_list[x][y] == ' ')):
                 if(values_list[x][y] == values_list[x][right] == values_list[x][dbl_right]):
-                    return values_list[x][y]
+                    print(f"\n{values_list[x][y]} wins")
+                    return True
                 if(values_list[x][y] == values_list[down][y] == values_list[dbl_down][y]):
-                    return values_list[x][y]
-                if(values_list[0][0] == values_list[1][1] == values_list[2][2]):
-                    return values_list[x][y]
-                if(values_list[0][2] == values_list[1][1] == values_list[2][0]):
-                    return values_list[x][y]
+                    print(f"\n{values_list[x][y]} wins")
+                    return True
+                if((values_list[0][0] == values_list[1][1] == values_list[2][2]) and not(values_list[1][1] == ' ')):
+                    print(f"\n{values_list[x][y]} wins")
+                    return True
+                if(values_list[0][2] == values_list[1][1] == values_list[2][0] and not(values_list[1][1] == ' ')):
+                    print(f"\n{values_list[x][y]} wins")
+                    return True
 
 while ' ' in the_board.values():
     print(f"It is {turn}'s turn")
@@ -79,4 +83,6 @@ while ' ' in the_board.values():
         turn = 'X'
 
     print_the_board()
-    find_winner()
+
+    if(find_winner()):
+        sys.exit()
