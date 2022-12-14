@@ -56,20 +56,20 @@ def find_winner():
 
             if(not(values_list[x][y] == ' ')):
                 if(values_list[x][y] == values_list[x][right] == values_list[x][dbl_right]):
-                    print(f"\n{values_list[x][y]} wins")
+                    print(f"\n{values_list[x][y]} wins") # formed a horizontal line
                     return True
                 if(values_list[x][y] == values_list[down][y] == values_list[dbl_down][y]):
-                    print(f"\n{values_list[x][y]} wins")
+                    print(f"\n{values_list[x][y]} wins") # formed a vertical line
                     return True
                 if((values_list[0][0] == values_list[1][1] == values_list[2][2]) and not(values_list[1][1] == ' ')):
-                    print(f"\n{values_list[x][y]} wins")
+                    print(f"\n{values_list[x][y]} wins") # formed a right diagonal
                     return True
                 if(values_list[0][2] == values_list[1][1] == values_list[2][0] and not(values_list[1][1] == ' ')):
-                    print(f"\n{values_list[x][y]} wins")
+                    print(f"\n{values_list[x][y]} wins") # formed a left diagonal
                     return True
 
 while ' ' in the_board.values():
-    print(f"It is {turn}'s turn")
+    print(f"It is {turn}'s turn. (Enter 'q' to quit)")
     move = input("Enter a position to play at \n => ")
     # check if that position is still free
     if(the_board[move] == ' '): # when that position is free
@@ -84,5 +84,7 @@ while ' ' in the_board.values():
 
     print_the_board()
 
-    if(find_winner()):
+    if(find_winner() and (counter == 10)):
         sys.exit()
+    elif(counter < 10):
+        continue
