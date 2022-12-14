@@ -38,6 +38,32 @@ def store_values_in_list():
     
     return parent_list
 
+def find_winner():
+    winner = ''
+    values_list = store_values_in_list()
+    # Evaluate who won the game
+
+    for x in range(3):
+        for y in range(3):
+            right = (y + 1) % 3
+            dbl_right = (y + 2) % 3
+            left = (y - 1) % 3
+            dbl_left = (y - 2) % 3
+            top = (x - 1) % 3
+            dbl_top = (x - 2) % 3
+            down = (x + 1) % 3
+            dbl_down = (x + 2) % 3
+
+            if(not(values_list[x][y] == ' ')):
+                if(values_list[x][y] == values_list[x][right] == values_list[x][dbl_right]):
+                    return values_list[x][y]
+                if(values_list[x][y] == values_list[down][y] == values_list[dbl_down][y]):
+                    return values_list[x][y]
+                if(values_list[0][0] == values_list[1][1] == values_list[2][2]):
+                    return values_list[x][y]
+                if(values_list[0][2] == values_list[1][1] == values_list[2][0]):
+                    return values_list[x][y]
+
 while ' ' in the_board.values():
     print(f"It is {turn}'s turn")
     move = input("Enter a position to play at \n => ")
