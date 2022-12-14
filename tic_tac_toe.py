@@ -28,11 +28,15 @@ def print_the_board():
 
 turn = 'X'
 
-def find_winner():
-    # this function evaluates the winner of a tictactoe game 
-    if(not(the_board['top-L'] == ' ') and ((the_board['top-L'] == the_board['top-R']) and (the_board['top-R'] == the_board['top-L']))):
-        print(f"{the_board['top-L']} wins") # causing issues so were gonna make a list out of this
-        sys.exit()
+def store_values_in_list():
+    parent_list = []
+    values_list = list(the_board.values())
+
+    for index in range(0, len(values_list), 3):
+        row = values_list[index: index + 3]
+        parent_list.append(row)
+    
+    return parent_list
 
 while ' ' in the_board.values():
     print(f"It is {turn}'s turn")
