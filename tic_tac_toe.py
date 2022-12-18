@@ -1,22 +1,15 @@
-import sys
-# the_board = [
-#     {"top-L": 'X', "top-M": ' ', "top-R": ' '},
-#     {"mid-L": ' ', "mid-M": 'X', "mid-R": ' '},
-#     {"low-L": 'X', "low-M": ' ', "low-R": 'X'}
-# ] # this one is for printing it without the guides
-
-# game_values = list(the_board.values())
-# print(game_values)
-
-# for dictionary in the_board:
-#     for item in dictionary.values():
-#         print(item, end=' ')
-#     print() # this function prints the tictactoe board but for a different data type
+import sys, copy
 
 the_board = { 
     "top-L": ' ', "top-M": ' ', "top-R": ' ',
     "mid-L": ' ', "mid-M": ' ', "mid-R": ' ',
-    "low-L": ' ', "low-M": ' ', "low-R": ' '}
+    "low-L": ' ', "low-M": ' ', "low-R": ' '
+}
+
+turn = 'X'
+counter = 0
+x_wins = 0
+o_wins = 0
 
 def print_the_board():
     # This function prints the tic tac toe board
@@ -25,8 +18,6 @@ def print_the_board():
     print(f"{the_board['mid-L']} | {the_board['mid-M']} | {the_board['mid-R']}")
     print("- + - + - " )
     print(f"{the_board['low-L']} | {the_board['low-M']} | {the_board['low-R']}")
-
-turn = 'X'
 
 def store_values_in_list():
     parent_list = []
@@ -57,34 +48,64 @@ def find_winner():
             if(not(values_list[x][y] == ' ')):
                 if(values_list[x][y] == values_list[x][right] == values_list[x][dbl_right]):
                     print(f"\n{values_list[x][y]} wins") # formed a horizontal line
-                    return True
+                    return [True, values_list[x][y]]
                 if(values_list[x][y] == values_list[down][y] == values_list[dbl_down][y]):
                     print(f"\n{values_list[x][y]} wins") # formed a vertical line
-                    return True
+                    return [True, values_list[x][y]]
                 if((values_list[0][0] == values_list[1][1] == values_list[2][2]) and not(values_list[1][1] == ' ')):
-                    print(f"\n{values_list[x][y]} wins") # formed a right diagonal
-                    return True
+                    print(f"\n{values_list[1][1]} wins") # formed a right diagonal
+                    return [True, values_list[1][1]]
                 if(values_list[0][2] == values_list[1][1] == values_list[2][0] and not(values_list[1][1] == ' ')):
-                    print(f"\n{values_list[x][y]} wins") # formed a left diagonal
-                    return True
+                    print(f"\n{values_list[1][1]} wins") # formed a left diagonal
+                    return [True, values_list[1][1]]
 
-while ' ' in the_board.values():
-    print(f"It is {turn}'s turn. (Enter 'q' to quit)")
-    move = input("Enter a position to play at \n => ")
-    # check if that position is still free
-    if(the_board[move] == ' '): # when that position is free
-        the_board[move] = turn
-    else:
-        print(f"{the_board[move]} has already played there. Choose a different position") # when the position has been played
-        continue
-    if turn == 'X':
-        turn = 'O'
-    else:
+def reset_the_board():
+    global the_board
+    the_board = { 
+    "top-L": ' ', "top-M": ' ', "top-R": ' ',
+    "mid-L": ' ', "mid-M": ' ', "mid-R": ' ',
+    "low-L": ' ', "low-M": ' ', "low-R": ' '
+}
+
+
+while True:
+    if(counter % 2 == 0):
         turn = 'X'
+    else:
+        turn = 'O'
 
-    print_the_board()
+    if(counter == 3):
+        break
 
-    if(find_winner() and (counter == 10)):
-        sys.exit()
-    elif(counter < 10):
-        continue
+    while True:
+        print(f"It is {turn}'s turn. (Enter 'q' to quit)")
+        move = input("Enter a position to play at \n => ")
+        # check if that position is still free
+        try:
+            if(the_board[move] == ' '): # when that position is free
+                the_board[move] = turn
+            else:
+                print(f"{the_board[move]} has already played there. Choose a different position") # when the position has been played
+                continue
+        except KeyError:
+            print("Sorry that position doesn't exist. Try low, top and mid with -R, -L or -M")
+            continue
+        if turn == 'X':
+            turn = 'O'
+        else:
+            turn = 'X'
+
+        print_the_board()
+        winner_list = copy.copy(find_winner())
+
+        if(winner_list != None):
+            if((winner_list[0] == True) and (winner_list[1] == 'X')):
+                x_wins += 1
+            elif((winner_list[0] == True) and (winner_list[1] == 'O')):
+                o_wins += 1
+            reset_the_board()
+            break
+            
+    counter += 1
+
+print(f"GAME OVER!\nX - O\n{x_wins} - {o_wins}")
