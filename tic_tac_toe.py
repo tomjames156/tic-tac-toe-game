@@ -6,13 +6,13 @@ the_board = {
     "low-L": ' ', "low-M": ' ', "low-R": ' '
 }
 
-turn = 'X'
 counter = 0
 x_wins = 0
 o_wins = 0
 
 def print_the_board():
     # This function prints the tic tac toe board
+
     print(f"{the_board['top-L']} | {the_board['top-M']} | {the_board['top-R']}")
     print("- + - + - " )
     print(f"{the_board['mid-L']} | {the_board['mid-M']} | {the_board['mid-R']}")
@@ -20,6 +20,8 @@ def print_the_board():
     print(f"{the_board['low-L']} | {the_board['low-M']} | {the_board['low-R']}")
 
 def store_values_in_list():
+    # This function changed the dictionary to a 2 dimensional list with 3 items in each list
+
     parent_list = []
     values_list = list(the_board.values())
 
@@ -30,9 +32,9 @@ def store_values_in_list():
     return parent_list
 
 def find_winner():
+    # This functin evaluates who won the game
     winner = ''
     values_list = store_values_in_list()
-    # Evaluate who won the game
 
     for x in range(3):
         for y in range(3):
@@ -47,19 +49,23 @@ def find_winner():
 
             if(not(values_list[x][y] == ' ')):
                 if(values_list[x][y] == values_list[x][right] == values_list[x][dbl_right]):
-                    print(f"\n{values_list[x][y]} wins") # formed a horizontal line
+                    print(f"\n{values_list[x][y]} wins\n") # formed a horizontal line
                     return [True, values_list[x][y]]
                 if(values_list[x][y] == values_list[down][y] == values_list[dbl_down][y]):
-                    print(f"\n{values_list[x][y]} wins") # formed a vertical line
+                    print(f"\n{values_list[x][y]} wins\n") # formed a vertical line
                     return [True, values_list[x][y]]
                 if((values_list[0][0] == values_list[1][1] == values_list[2][2]) and not(values_list[1][1] == ' ')):
-                    print(f"\n{values_list[1][1]} wins") # formed a right diagonal
+                    print(f"\n{values_list[1][1]} wins\n") # formed a right diagonal
                     return [True, values_list[1][1]]
                 if(values_list[0][2] == values_list[1][1] == values_list[2][0] and not(values_list[1][1] == ' ')):
-                    print(f"\n{values_list[1][1]} wins") # formed a left diagonal
+                    print(f"\n{values_list[1][1]} wins\n") # formed a left diagonal
                     return [True, values_list[1][1]]
+                if(' ' not in the_board.values()):
+                    return [False, None]
 
 def reset_the_board():
+    # This function removes all the items in the board
+
     global the_board
     the_board = { 
     "top-L": ' ', "top-M": ' ', "top-R": ' ',
@@ -69,6 +75,7 @@ def reset_the_board():
 
 
 while True:
+    print('New Board')
     if(counter % 2 == 0):
         turn = 'X'
     else:
@@ -80,7 +87,9 @@ while True:
     while True:
         print(f"It is {turn}'s turn. (Enter 'q' to quit)")
         move = input("Enter a position to play at \n => ")
+
         # check if that position is still free
+
         try:
             if(the_board[move] == ' '): # when that position is free
                 the_board[move] = turn
@@ -103,6 +112,8 @@ while True:
                 x_wins += 1
             elif((winner_list[0] == True) and (winner_list[1] == 'O')):
                 o_wins += 1
+            elif(winner_list[0] == False):
+                print("\nIt's a tie👔\n")
             reset_the_board()
             break
             
