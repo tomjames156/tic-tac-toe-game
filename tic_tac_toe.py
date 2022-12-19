@@ -32,7 +32,7 @@ def store_values_in_list():
     return parent_list
 
 def find_winner():
-    # This functin evaluates who won the game
+    # This function evaluates who won the game
     winner = ''
     values_list = store_values_in_list()
 
@@ -75,14 +75,15 @@ def reset_the_board():
 
 
 while True:
-    print('New Board')
-    if(counter % 2 == 0):
-        turn = 'X'
-    else:
-        turn = 'O'
-
-    if(counter == 3):
+    if(counter == 10):
         break
+    else:
+        if(counter % 2 == 0):
+            turn = 'X'
+            print('New Board')
+        else:
+            turn = 'O'
+            print('New Board')
 
     while True:
         print(f"It is {turn}'s turn. (Enter 'q' to quit)")
@@ -110,8 +111,10 @@ while True:
         if(winner_list != None):
             if((winner_list[0] == True) and (winner_list[1] == 'X')):
                 x_wins += 1
+                print(f"X - O\n{x_wins} - {o_wins}")
             elif((winner_list[0] == True) and (winner_list[1] == 'O')):
                 o_wins += 1
+                print(f"X - O\n{x_wins} - {o_wins}")
             elif(winner_list[0] == False):
                 print("\nIt's a tie👔\n")
             reset_the_board()
